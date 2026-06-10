@@ -41,12 +41,18 @@
     recurse: true
   tags: deploy
 
+- name: Pull PostgreSQL image
+  become_user: "{{ docker_user }}"
+  community.docker.docker_image:
+    name: "{{ postgres_image }}"
+    source: pull
+  tags: deploy
+
 - name: Start PostgreSQL-14
   become_user: "{{ docker_user }}"
   community.docker.docker_container:
     name: database
     image: "{{ postgres_image }}"
-    pull: true
     recreate: true
     restart_policy: unless-stopped
     networks:
@@ -75,7 +81,6 @@
   community.docker.docker_container:
     name: application
     image: "{{ docker_image_ref }}"
-    pull: true
     recreate: true
     restart_policy: unless-stopped
     networks:
