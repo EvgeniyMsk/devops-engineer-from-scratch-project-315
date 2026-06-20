@@ -35,6 +35,13 @@
     proto: tcp
   tags: prepare
 
+- name: Allow PostgreSQL (port 5432)
+  community.general.ufw:
+    rule: allow
+    port: "5432"
+    proto: tcp
+  tags: prepare
+
 - name: Enable firewall
   community.general.ufw:
     state: enabled
